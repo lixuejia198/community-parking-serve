@@ -24,7 +24,7 @@ module.exports.register = async (ctx) => {
   if (verify.error) {
     ctx.body = {
       status: 0,
-      message: verify.error.details[0].message,
+      msg: verify.error.details[0].message,
     };
     return;
   }
@@ -35,7 +35,7 @@ module.exports.register = async (ctx) => {
   if (user[0]) {
     ctx.body = {
       status: 0,
-      message: "您已注册 无需重复注册！",
+      msg: "您已注册 无需重复注册！",
     };
     return;
   }
@@ -43,7 +43,7 @@ module.exports.register = async (ctx) => {
   await registerUser(username, cryptoPassword(password));
   ctx.body = {
     status: 200,
-    message: "注册成功",
+    msg: "注册成功，赶快进行登录吧",
   };
 };
 // 用户登录

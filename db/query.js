@@ -7,9 +7,9 @@ var pool = mysql.createPool({
   // 主机
   host: "localhost",
   // 用户名
-  user: "root",
+  user: process.env.DATABASE_USER,
   // 密码
-  password: "root",
+  password: process.env.DATABASE_PASSWORD,
   // 数据库
   database: "community_parking",
 });

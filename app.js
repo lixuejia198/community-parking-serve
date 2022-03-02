@@ -6,9 +6,13 @@ const onerror = require("koa-onerror"); // 处理异常
 const bodyparser = require("koa-bodyparser"); // 解析post请求
 const logger = require("koa-logger"); // 记录日志
 const jwt = require("koa-jwt"); // 引入koa-jwt
+const cors = require("koa2-cors"); // 引入koa2-cors
 
 // 配置env
 require("dotenv").config();
+
+// 使用cors解决跨域问题
+app.use(cors());
 
 // 加载路由
 const index = require("./routes/index");
