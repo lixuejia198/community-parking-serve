@@ -35,10 +35,16 @@ app.use(function (ctx, next) {
     }
   });
 });
-// 设置哪些接口需要带token 注意加密信息一定要和token生成时使用的加密字符串一致 unless为排除哪些不需要早请求时代token
+// 设置哪些接口需要带token 注意加密信息一定要和token生成时使用的加密字符串一致 unless为排除哪些接口请求时不需要带token
 app.use(
   jwt({ secret: process.env.TOKEN_SECRET }).unless({
-    path: [/^\/public/, /^\/users\/login/, /^\/users\/register/],
+    path: [
+      /^\/public/,
+      /^\/users\/login/,
+      /^\/users\/register/,
+      /^\/rentlist/,
+      /^\/seeklist/,
+    ],
   })
 );
 
