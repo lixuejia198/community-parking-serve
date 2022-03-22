@@ -25,3 +25,10 @@ module.exports.getSeeklistCount = async () => {
     "SELECT count(*) AS total FROM seeklist,community WHERE seeklist.comid=community.comid"
   );
 };
+// 根据用户Id查询车位信息
+module.exports.getCarportByUserID = async (id) => {
+  return await query(
+    "SELECT * FROM carport AS a,community AS b WHERE a.comid = b.comid AND  uid = " +
+      id
+  );
+};
