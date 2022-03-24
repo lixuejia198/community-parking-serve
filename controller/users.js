@@ -59,6 +59,7 @@ module.exports.login = async (ctx) => {
     const token = jwt.sign(
       {
         data: {
+          id: user[0].id,
           username,
         },
       },
@@ -69,6 +70,7 @@ module.exports.login = async (ctx) => {
     ctx.body = {
       status: 200,
       token: token,
+      id: user[0].id,
       msg: "登录成功",
     };
   } else {
