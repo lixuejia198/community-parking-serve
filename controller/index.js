@@ -36,7 +36,7 @@ module.exports.seeklist = async (ctx) => {
   };
 };
 
-// 分页查询寻找车位列表
+// 查询车位列表
 module.exports.getCarport = async (ctx) => {
   console.log(ctx.request.query, "query");
   const { uid } = ctx.request.query;
