@@ -17,6 +17,7 @@ app.use(cors());
 // 加载路由
 const index = require("./routes/index");
 const users = require("./routes/users");
+const carport = require("./routes/carport");
 
 // error handler 错误处理
 onerror(app);
@@ -75,6 +76,7 @@ app.use(async (ctx, next) => {
 // routes 注册路由
 app.use(index.routes()).use(index.allowedMethods());
 app.use(users.routes()).use(users.allowedMethods());
+app.use(carport.routes()).use(carport.allowedMethods());
 
 // error-handling 一旦监听到异常 就打印
 app.on("error", (err, ctx) => {
