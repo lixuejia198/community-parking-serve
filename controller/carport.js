@@ -2,7 +2,7 @@ const {
   getCarportByUserID,
   getCarportByComID,
   getCarportByUserIDAndComID,
-} = require("../model");
+} = require("../model/carport");
 
 // 分页查询寻找车位列表
 module.exports.getCarport = async (ctx) => {
