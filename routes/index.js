@@ -1,17 +1,9 @@
 const router = require("koa-router")();
-const {
-  rentlist,
-  seeklist,
-  getCarport,
-  getCarInfo,
-} = require("../controller/index");
-
+const { rentList, seekList,getCarInfo } = require("../controller/index");
 // 查询出租车位列表接口
-router.get("/rentlist", rentlist);
+router.get("/rentlist", rentList);
 // 查询寻找车位列表接口
-router.get("/seeklist", seeklist);
-// 查询用户车位信息
-router.get("/carport", getCarport);
+router.get("/seeklist", seekList);
 // 查询用户车的信息
 router.get("/car", getCarInfo);
 

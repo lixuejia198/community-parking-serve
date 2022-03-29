@@ -1,7 +1,7 @@
 // 引入mysql包
-var mysql = require("mysql");
+const mysql = require("mysql");
 // 创建数据库连接池
-var pool = mysql.createPool({
+const pool = mysql.createPool({
   // 最大连接数
   connectionLimit: 100,
   // 主机
