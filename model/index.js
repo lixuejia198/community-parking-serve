@@ -32,3 +32,7 @@ module.exports.getCarportByUserID = async (id) => {
     [id]
   );
 };
+// 根据用户id查询车信息
+module.exports.getCarInfoByUserID = async (id) => {
+  return await query("SELECT id,cname,pid FROM car WHERE uid=?", [id]);
+};

@@ -3,8 +3,9 @@ const {
   getSeeklist,
   getRentlistCount,
   getSeeklistCount,
+  getCarportByUserID,
+  getCarInfoByUserID,
 } = require("../model/index");
-const { getCarportByUserID } = require("../model");
 // 分页查询出租车位列表
 module.exports.rentlist = async (ctx) => {
   console.log(ctx.request.query, "query");
@@ -41,6 +42,18 @@ module.exports.getCarport = async (ctx) => {
   console.log(ctx.request.query, "query");
   const { uid } = ctx.request.query;
   const data = await getCarportByUserID(uid);
+  console.log(data, "data");
+  ctx.body = {
+    status: 200,
+    data: data,
+    msg: "查询成功",
+  };
+};
+// 查询用户车的信息
+module.exports.getCarInfo = async (ctx) => {
+  console.log(ctx.request.query, "query");
+  const { uid } = ctx.request.query;
+  const data = await getCarInfoByUserID(uid);
   console.log(data, "data");
   ctx.body = {
     status: 200,
