@@ -11,10 +11,10 @@ module.exports.getCarport = async (ctx) => {
   let result = [];
   // 判断是否有查询条件
   if (!uid && !comid) {
-    ctx.body = {
+    return (ctx.body = {
       code: 0,
       msg: "参数错误",
-    };
+    });
   } else if (uid && !comid) {
     // 只传入 uid 则查询该用户所有车位
     result = await getCarportByUserID({ uid });

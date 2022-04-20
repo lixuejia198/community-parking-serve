@@ -35,16 +35,3 @@ module.exports.seekList = async (ctx) => {
     msg: "查询成功",
   };
 };
-
-// 查询用户车的信息
-module.exports.getCarInfo = async (ctx) => {
-  console.log(ctx.request.query, "query");
-  const { uid } = ctx.request.query;
-  const data = await getCarInfoByUserID(uid);
-  console.log(data, "data");
-  ctx.body = {
-    status: 200,
-    data: data,
-    msg: "查询成功",
-  };
-};
