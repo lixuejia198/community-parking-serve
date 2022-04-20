@@ -4,17 +4,17 @@ const {
   getCarportByUserIDAndComID,
 } = require("../model/carport");
 
-// 分页查询寻找车位列表
+// 查询寻找车位列表
 module.exports.getCarport = async (ctx) => {
   const { uid, comid } = ctx.request.query;
   console.log(uid, comid);
   let result = [];
   // 判断是否有查询条件
   if (!uid && !comid) {
-    ctx.body = {
+    return (ctx.body = {
       code: 0,
       msg: "参数错误",
-    };
+    });
   } else if (uid && !comid) {
     // 只传入 uid 则查询该用户所有车位
     result = await getCarportByUserID({ uid });

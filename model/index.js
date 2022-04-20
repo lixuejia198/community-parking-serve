@@ -25,7 +25,3 @@ module.exports.getSeekListCount = async () => {
     "SELECT count(*) AS total FROM seeklist INNER JOIN community ON seeklist.comid=community.id INNER JOIN car ON seeklist.cid=car.id"
   );
 };
-// 根据用户id查询车信息
-module.exports.getCarInfoByUserID = async (id) => {
-  return await query("SELECT id,cname,pid FROM car WHERE uid=?", [id]);
-};
