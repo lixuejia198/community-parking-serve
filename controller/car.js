@@ -2,6 +2,7 @@ const {
   getCarByUserID,
   getCarByComID,
   getCarByUserIDAndComID,
+  addCarByUserID,
 } = require("../model/car");
 
 // 查询车辆信息
@@ -36,6 +37,30 @@ module.exports.getCar = async (ctx) => {
     ctx.body = {
       status: 0,
       msg: "查询失败",
+    };
+  }
+};
+
+// 添加车辆
+module.exports.addCar = async (ctx) => {
+  const { cname, uid } = ctx.request.body;
+  // 校验参数
+  if (!cname || !uid) {
+    return (ctx.body = {
+      code: 0,
+      msg: "参数错误",
+    });
+  }
+  const result = await addCarByUserID({ cname, uid: Number(uid) });
+  if (result.serverStatus === 2) {
+    ctx.body = {
+      status: 200,
+      msg: "添加成功",
+    };
+  } else {
+    ctx.body = {
+      status: 0,
+      msg: "添加失败",
     };
   }
 };
