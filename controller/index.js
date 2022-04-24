@@ -58,7 +58,7 @@ module.exports.cityList = async (ctx) => {
               {
                 value: item.area_id,
                 label: item.area,
-                data: item,
+                list: [item],
               },
             ],
           },
@@ -79,7 +79,7 @@ module.exports.cityList = async (ctx) => {
             {
               value: item.area_id,
               label: item.area,
-              data: item,
+              list: [item],
             },
           ],
         });
@@ -94,8 +94,13 @@ module.exports.cityList = async (ctx) => {
           result[provinceIndex].children[cityIndex].children.push({
             value: item.area_id,
             label: item.area,
-            data: item,
+            list: [item],
           });
+        } else {
+          // 否则在当前区下添加当前数据
+          result[provinceIndex].children[cityIndex].children[
+            areaIndex
+          ].list.push(item);
         }
       }
     }
