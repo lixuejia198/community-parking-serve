@@ -42,44 +42,60 @@ module.exports.cityList = async (ctx) => {
   data.forEach((item) => {
     // 查找结果中当前省的索引
     const provinceIndex = result.findIndex(
-      (item1) => item1?.province_id === item?.province_id
+      (item1) => item1?.value === item?.province_id
     );
     // 判断是否查找到当前省的数据
     if (provinceIndex === -1) {
       // 如果找不到 则添加当前省、市、区的数据
       result.push({
-        province_id: item.province_id,
-        province: item.province,
+        value: item.province_id,
+        label: item.province,
         children: [
           {
-            city_id: item.city_id,
-            city: item.city,
-            children: [item],
+            value: item.city_id,
+            label: item.city,
+            children: [
+              {
+                value: item.area_id,
+                label: item.area,
+                data: item,
+              },
+            ],
           },
         ],
       });
     } else {
       // 否则在当前省下查找当前市的索引
       const cityIndex = result[provinceIndex].children.findIndex(
-        (item1) => item1?.city_id === item?.city_id
+        (item1) => item1?.value === item?.city_id
       );
       // 判断是否查找到当前市的数据
       if (cityIndex === -1) {
         // 如果找不到 则添加当前市、区的数据
         result[provinceIndex].children.push({
-          city_id: item.city_id,
-          city: item.city,
-          children: [item],
+          value: item.city_id,
+          label: item.city,
+          children: [
+            {
+              value: item.area_id,
+              label: item.area,
+              data: item,
+            },
+          ],
         });
       } else {
         // 否则在当前市下查找当前区的索引
         const areaIndex = result[provinceIndex].children[
           cityIndex
-        ].children.findIndex((item1) => item1?.area_id === item?.area_id);
+        ].children.findIndex((item1) => item1?.value === item?.area_id);
         // 判断是否查找到当前区的数据
         if (areaIndex === -1) {
           // 如果找不到 则添加当前区的数据
-          result[provinceIndex].children[cityIndex].children.push(item);
+          result[provinceIndex].children[cityIndex].children.push({
+            value: item.area_id,
+            label: item.area,
+            data: item,
+          });
         }
       }
     }
