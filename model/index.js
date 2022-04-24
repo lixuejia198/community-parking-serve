@@ -28,6 +28,6 @@ module.exports.getSeekListCount = async () => {
 // 查询所有小区列表
 module.exports.getCityList = async () => {
   return await query(
-    "SELECT province_id,(SELECT name FROM province WHERE id = province_id) AS province,city_id,(SELECT name FROM province WHERE id = city_id) AS city,area_id,(SELECT name FROM province WHERE id = area_id) AS area,place,comname FROM community"
+    "SELECT id,province_id,(SELECT name FROM province WHERE id = province_id) AS province,city_id,(SELECT name FROM province WHERE id = city_id) AS city,area_id,(SELECT name FROM province WHERE id = area_id) AS area,place,comname FROM community"
   );
 };
