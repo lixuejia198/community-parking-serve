@@ -43,7 +43,7 @@ module.exports.getCar = async (ctx) => {
 
 // 添加车辆
 module.exports.addCar = async (ctx) => {
-  const { cname, uid } = ctx.request.body;
+  const { cname, uid, color } = ctx.request.body;
   // 校验参数
   if (!cname || !uid) {
     return (ctx.body = {
@@ -51,7 +51,7 @@ module.exports.addCar = async (ctx) => {
       msg: "参数错误",
     });
   }
-  const result = await addCarByUserID({ cname, uid: Number(uid) });
+  const result = await addCarByUserID({ uid: Number(uid), cname, color });
   if (result.serverStatus === 2) {
     ctx.body = {
       status: 200,
