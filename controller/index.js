@@ -35,7 +35,9 @@ module.exports.seekList = async (ctx) => {
 };
 // 查询城市列表
 module.exports.cityList = async (ctx) => {
-  const data = await getCityList();
+  const { areaid } = ctx.request.query;
+
+  const data = await getCityList({ areaid });
   // 结果
   const result = [];
   // 遍历所有数据
