@@ -5,6 +5,7 @@ const {
   addCarportByComID,
   addCarportToUser,
   addRentByCarport,
+  getRentCarportByPid,
 } = require("../model/carport");
 
 // 查询用户车位列表
@@ -124,6 +125,24 @@ module.exports.rentCarport = async (ctx) => {
     ctx.body = {
       status: 0,
       msg: "车位共享失败",
+    };
+  }
+};
+
+// 查询车位被被共享的时间
+module.exports.rentCarportTime = async (ctx) => {
+  const { pid, time } = ctx.request.query;
+  const result = await getRentCarportByPid({ pid: Number(pid), time });
+  if (result.length > 0) {
+    ctx.body = {
+      status: 200,
+      msg: "查询成功",
+      data: result,
+    };
+  } else {
+    ctx.body = {
+      status: 0,
+      msg: "查询失败",
     };
   }
 };

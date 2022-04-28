@@ -4,6 +4,7 @@ const {
   addCarport,
   userBindCarport,
   rentCarport,
+  rentCarportTime,
 } = require("../controller/carport");
 router.prefix("/carport");
 
@@ -15,5 +16,7 @@ router.post("/add", addCarport);
 router.post("/bind_user", userBindCarport);
 // 共享车位
 router.post("/rent", rentCarport);
+// 查询车位被被共享的时间
+router.get("/rent_time", rentCarportTime);
 
 module.exports = router;
