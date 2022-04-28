@@ -44,7 +44,7 @@ module.exports.getCarport = async (ctx) => {
 
 // 添加车位
 module.exports.addCarport = async (ctx) => {
-  const { pname, comid, x, y, z, direction, uid } = ctx.request.query;
+  const { pname, comid, x, y, z, direction, uid } = ctx.request.body;
 
   // 添加小区车位
   const result = await addCarportByComID({
@@ -57,7 +57,7 @@ module.exports.addCarport = async (ctx) => {
     uid: Number(uid),
   });
 
-  if (result.serverStatus === 2) {
+  if (result.affectedRows !== 0) {
     ctx.body = {
       status: 200,
       msg: "车位添加成功",
@@ -81,9 +81,11 @@ module.exports.addCarport = async (ctx) => {
 
 // 用户添加车位
 module.exports.userBindCarport = async (ctx) => {
-  const { pid, uid } = ctx.request.query;
-  const result = await addCarportToUser({ pid, uid });
-  if (result.serverStatus === 2) {
+  console.log(ctx.request.body, "body");
+  const { pid, uid } = ctx.request.body;
+  const result = await addCarportToUser({ uid, pid });
+  console.log(result, "++++++++++++++++++");
+  if (result.affectedRows !== 0) {
     ctx.body = {
       status: 200,
       msg: "车位绑定成功",
