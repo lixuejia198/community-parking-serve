@@ -10,7 +10,7 @@ module.exports.getCarportByUserID = async ({ uid }) => {
 // 根据小区Id查询车位信息
 module.exports.getCarportByComID = async ({ comid }) => {
   return await query(
-    "SELECT c.id,province_id,(SELECT name FROM province WHERE id = province_id) AS province,city_id,(SELECT name FROM province WHERE id = city_id) AS city,area_id,(SELECT name FROM province WHERE id = area_id) AS area,place,comname,pname,state,cid,comid,x,y,z,direction FROM carport AS c,community AS com WHERE c.comid = com.id AND comid = ?",
+    "SELECT c.id,c.uid,province_id,(SELECT name FROM province WHERE id = province_id) AS province,city_id,(SELECT name FROM province WHERE id = city_id) AS city,area_id,(SELECT name FROM province WHERE id = area_id) AS area,place,comname,pname,state,cid,comid,x,y,z,direction FROM carport AS c,community AS com WHERE c.comid = com.id AND comid = ?",
     [comid]
   );
 };
