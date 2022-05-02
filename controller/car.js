@@ -52,7 +52,7 @@ module.exports.addCar = async (ctx) => {
     });
   }
   const result = await addCarByUserID({ uid: Number(uid), cname, color });
-  if (result.serverStatus === 2) {
+  if (result.affectedRows !== 0) {
     ctx.body = {
       status: 200,
       msg: "添加成功",
