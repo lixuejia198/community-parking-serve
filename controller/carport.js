@@ -4,7 +4,7 @@ const {
   getCarportByUserIDAndComID,
   addCarportByComID,
   addCarportToUser,
-  addRentByCarport,
+  addCarportToRent,
   getRentCarportByPid,
 } = require("../model/carport");
 
@@ -82,10 +82,8 @@ module.exports.addCarport = async (ctx) => {
 
 // 用户添加车位
 module.exports.userBindCarport = async (ctx) => {
-  console.log(ctx.request.body, "body");
   const { pid, uid } = ctx.request.body;
   const result = await addCarportToUser({ uid, pid });
-  console.log(result, "++++++++++++++++++");
   if (result.affectedRows !== 0) {
     ctx.body = {
       status: 200,
@@ -106,13 +104,20 @@ module.exports.userBindCarport = async (ctx) => {
 // 共享车位
 module.exports.rentCarport = async (ctx) => {
   const { starttime, endtime, comid, pid } = ctx.request.body;
-  const result = await addRentByCarport({
+  // 校验参数
+  if (!starttime || !endtime || !comid || !pid) {
+    return (ctx.body = {
+      code: 0,
+      msg: "参数错误",
+    });
+  }
+  const result = await addCarportToRent({
     starttime: new Date(starttime).toLocaleString().replaceAll("/", "-"),
     endtime: new Date(endtime).toLocaleString().replaceAll("/", "-"),
     comid,
     pid,
   });
-  if (result.serverStatus === 2) {
+  if (result.affectedRows !== 0) {
     ctx.body = {
       status: 200,
       msg: "车位共享成功",

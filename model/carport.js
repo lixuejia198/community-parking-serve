@@ -42,7 +42,7 @@ module.exports.addCarportToUser = async ({ uid, pid }) => {
   return await query("UPDATE carport SET uid = ? WHERE id = ?", [uid, pid]);
 };
 // 添加车位到共享列表
-module.exports.addRentByCarport = async ({
+module.exports.addCarportToRent = async ({
   starttime,
   endtime,
   comid,
