@@ -22,10 +22,10 @@ module.exports.getCarByUserIDAndComID = async ({ uid, comid }) => {
   );
 };
 // 根据用户ID添加车辆
-module.exports.addCarByUserID = async ({ uid, cname, color = "000000" }) => {
+module.exports.addCarByUserID = async ({ uid, cname, color = "#ffffff" }) => {
   return await query("INSERT INTO car (uid,cname,color) VALUES (?,?,?)", [
     uid,
     cname,
-    color,
+    color.toLocaleLowerCase(),
   ]);
 };
