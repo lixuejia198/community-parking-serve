@@ -29,10 +29,17 @@ module.exports.addCarByUserID = async ({ uid, cname, color = "#ffffff" }) => {
     color.toLocaleLowerCase(),
   ]);
 };
+// 添加车辆到寻找车位列表
+module.exports.addCarToSeek = async ({ starttime, endtime, cid }) => {
+  return await query(
+    "INSERT INTO seeklist (starttime,endtime,cid) VALUES (?,?,?)",
+    [starttime, endtime, cid]
+  );
+};
 // 查询车辆使用车位信息
 module.exports.getSeekCarportByCid = async ({ cid }) => {
   return await query(
-    `SELECT id,starttime,endtime,comid,cid FROM seeklist WHERE cid = ?`,
+    `SELECT id,starttime,endtime,comid,cid FROM seeklist WHERE cid = >`,
     [cid]
   );
 };

@@ -4,6 +4,7 @@ const {
   getCarByUserIDAndComID,
   addCarByUserID,
   getSeekCarportByCid,
+  addCarToSeek,
 } = require("../model/car");
 
 // 查询车辆信息
@@ -62,6 +63,39 @@ module.exports.addCar = async (ctx) => {
     ctx.body = {
       status: 0,
       msg: "添加失败",
+    };
+  }
+};
+
+// 添加到寻找车位
+module.exports.seekCarport = async (ctx) => {
+  const { starttime, endtime, cid } = ctx.request.body;
+  // 校验参数
+  if (!starttime || !endtime || !cid) {
+    return (ctx.body = {
+      code: 0,
+      msg: "参数错误",
+    });
+  }
+  const result = await addCarToSeek({
+    starttime: new Date(starttime).toLocaleString().replaceAll("/", "-"),
+    endtime: new Date(endtime).toLocaleString().replaceAll("/", "-"),
+    cid,
+  });
+  if (result.affectedRows !== 0) {
+    ctx.body = {
+      status: 200,
+      msg: "车位共享成功",
+      data: {
+        starttime,
+        endtime,
+        cid,
+      },
+    };
+  } else {
+    ctx.body = {
+      status: 0,
+      msg: "车位共享失败",
     };
   }
 };
