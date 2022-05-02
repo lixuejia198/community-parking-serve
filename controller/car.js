@@ -3,6 +3,7 @@ const {
   getCarByComID,
   getCarByUserIDAndComID,
   addCarByUserID,
+  getSeekCarportByCid,
 } = require("../model/car");
 
 // 查询车辆信息
@@ -61,6 +62,24 @@ module.exports.addCar = async (ctx) => {
     ctx.body = {
       status: 0,
       msg: "添加失败",
+    };
+  }
+};
+
+// 查询车辆使用车位时间
+module.exports.seekCarportTime = async (ctx) => {
+  const { cid } = ctx.request.query;
+  const result = await getSeekCarportByCid({ cid: Number(cid) });
+  if (result.length > 0) {
+    ctx.body = {
+      status: 200,
+      msg: "查询成功",
+      data: result,
+    };
+  } else {
+    ctx.body = {
+      status: 0,
+      msg: "查询失败",
     };
   }
 };

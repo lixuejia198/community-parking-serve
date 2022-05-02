@@ -29,3 +29,10 @@ module.exports.addCarByUserID = async ({ uid, cname, color = "#ffffff" }) => {
     color.toLocaleLowerCase(),
   ]);
 };
+// 查询车辆使用车位信息
+module.exports.getSeekCarportByCid = async ({ cid }) => {
+  return await query(
+    `SELECT id,starttime,endtime,comid,cid FROM seeklist WHERE cid = ?`,
+    [cid]
+  );
+};
