@@ -133,8 +133,8 @@ module.exports.rentCarport = async (ctx) => {
 
 // 查询车位被被共享的时间
 module.exports.rentCarportTime = async (ctx) => {
-  const { pid, time } = ctx.request.query;
-  const result = await getRentCarportByPid({ pid: Number(pid), time });
+  const { pid } = ctx.request.query;
+  const result = await getRentCarportByPid({ pid: Number(pid) });
   if (result.length > 0) {
     ctx.body = {
       status: 200,

@@ -53,14 +53,10 @@ module.exports.addRentByCarport = async ({
     [starttime, endtime, comid, pid]
   );
 };
-// 查询车辆被共享的记录
-module.exports.getRentCarportByPid = async ({ pid, time }) => {
-  const payload = [pid];
-  if (time) payload.push(time);
+// 查询车位被共享的记录
+module.exports.getRentCarportByPid = async ({ pid }) => {
   return await query(
-    `SELECT id,starttime,endtime,comid,pid FROM rentlist WHERE pid = ?${
-      time ? ` AND endtime >= ?` : ""
-    }`,
-    payload
+    `SELECT id,starttime,endtime,comid,pid FROM rentlist WHERE pid = ?`,
+    [pid]
   );
 };
