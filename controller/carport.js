@@ -11,7 +11,6 @@ const {
 // 查询用户车位列表
 module.exports.getCarport = async (ctx) => {
   const { uid, comid } = ctx.request.query;
-  console.log(uid, comid);
   let result = [];
   // 判断是否有查询条件
   if (!uid && !comid) {

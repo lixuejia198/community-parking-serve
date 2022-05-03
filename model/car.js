@@ -39,7 +39,7 @@ module.exports.addCarToSeek = async ({ starttime, endtime, cid }) => {
 // 查询车辆使用车位信息
 module.exports.getSeekCarportByCid = async ({ cid }) => {
   return await query(
-    `SELECT id,starttime,endtime,comid,cid FROM seeklist WHERE cid = >`,
+    `SELECT id,starttime,endtime,comid,cid FROM seeklist WHERE cid = ?`,
     [cid]
   );
 };
