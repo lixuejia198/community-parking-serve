@@ -9,7 +9,7 @@ const {
 
 // 查询车辆信息
 module.exports.getCar = async (ctx) => {
-  const { uid, comid } = ctx.request.query;
+  const { uid, comid, starttime, endtime } = ctx.request.query;
   let result = [];
   // 判断是否有查询条件
   if (!uid && !comid) {
@@ -19,13 +19,13 @@ module.exports.getCar = async (ctx) => {
     });
   } else if (uid && !comid) {
     // 只传入 uid 则查询该用户所有车辆
-    result = await getCarByUserID({ uid });
+    result = await getCarByUserID({ uid, starttime, endtime });
   } else if (!uid && comid) {
     // 只传入 comid 则查询该小区所有车辆
-    result = await getCarByComID({ comid });
+    result = await getCarByComID({ comid, starttime, endtime });
   } else if (uid && comid) {
     // 传入 uid 和 comid 则查询该用户指定小区的车辆
-    result = await getCarByUserIDAndComID({ uid, comid });
+    result = await getCarByUserIDAndComID({ uid, comid, starttime, endtime });
   }
   if (result.length > 0) {
     ctx.body = {
