@@ -5,6 +5,10 @@ const {
   addCarByUserID,
   getSeekCarportByCid,
   addCarToSeek,
+  getCarLog,
+  getCarLogByUid,
+  getCarLogByCid,
+  getCarLogByUidAndCid,
 } = require("../model/car");
 
 // 查询车辆信息
@@ -119,6 +123,56 @@ module.exports.seekCarportTime = async (ctx) => {
     ctx.body = {
       status: 0,
       msg: "查询失败",
+    };
+  }
+};
+
+// 查询车辆日志
+module.exports.getCarLog = async (ctx) => {
+  const { uid, cid, page_num, page_size } = ctx.request.query;
+  let result = [];
+  if (!uid && !cid) {
+    result = await getCarLog({
+      page_num: page_num ? Number(page_num) : undefined,
+      page_size: page_size ? Number(page_size) : undefined,
+    });
+  } else if (uid && !cid) {
+    result = await getCarLogByUid({
+      uid: Number(uid),
+      page_num: page_num ? Number(page_num) : undefined,
+      page_size: page_size ? Number(page_size) : undefined,
+    });
+  } else if (!uid && cid) {
+    result = await getCarLogByCid({
+      cid: Number(cid),
+      page_num: page_num ? Number(page_num) : undefined,
+      page_size: page_size ? Number(page_size) : undefined,
+    });
+  } else if (uid && cid) {
+    result = await getCarLogByUidAndCid({
+      uid: Number(uid),
+      cid: Number(cid),
+      page_num: page_num ? Number(page_num) : undefined,
+      page_size: page_size ? Number(page_size) : undefined,
+    });
+  } else {
+    ctx.body = {
+      status: 0,
+      msg: "参数错误",
+    };
+  }
+
+  if (result.length > 0) {
+    ctx.body = {
+      status: 200,
+      msg: "查询成功",
+      data: result,
+    };
+  } else {
+    ctx.body = {
+      status: 0,
+      msg: "没有查询到数据",
+      data: [],
     };
   }
 };
