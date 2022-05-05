@@ -60,3 +60,75 @@ module.exports.getRentCarportByPid = async ({ pid }) => {
     [pid]
   );
 };
+// 查询车位日志
+module.exports.getCarportLog = async ({ page_num = 1, page_size = 10 }) => {
+  const payload = [];
+  page_num && page_size && payload.push(page_num, page_size);
+  return await query(
+    `SELECT rentlist.id,rentlist.starttime,rentlist.endtime,rentlist.comid,rentlist.pid,rentlist.cid,community.province_id,(SELECT name FROM province WHERE id = community.province_id) AS province,community.city_id,(SELECT name FROM province WHERE id = community.city_id) AS city,community.area_id,(SELECT name FROM province WHERE id = community.area_id) AS area,community.place,carport.pname,carport.x,carport.y,carport.z,carport.direction,carport.uid 
+FROM rentlist 
+JOIN community ON rentlist.comid = community.id 
+LEFT JOIN carport ON carport.comid = rentlist.comid AND carport.id = rentlist.pid${
+      page_num && page_size ? ` LIMIT ${page_num},${page_size}` : ``
+    }`,
+    payload
+  );
+};
+// 根据车位ID查询车位日志
+module.exports.getCarportLogByPid = async ({
+  pid,
+  page_num = 1,
+  page_size = 10,
+}) => {
+  const payload = [pid];
+  page_num && page_size && payload.push(page_num, page_size);
+  return await query(
+    `SELECT rentlist.id,rentlist.starttime,rentlist.endtime,rentlist.comid,rentlist.pid,rentlist.cid,community.province_id,(SELECT name FROM province WHERE id = community.province_id) AS province,community.city_id,(SELECT name FROM province WHERE id = community.city_id) AS city,community.area_id,(SELECT name FROM province WHERE id = community.area_id) AS area,community.place,carport.pname,carport.x,carport.y,carport.z,carport.direction,carport.uid 
+FROM rentlist 
+JOIN community ON rentlist.comid = community.id 
+LEFT JOIN carport ON carport.comid = rentlist.comid AND carport.id = rentlist.pid 
+WHERE rentlist.pid = ?${
+      page_num && page_size ? ` LIMIT ${page_num},${page_size}` : ``
+    }`,
+    payload
+  );
+};
+// 根据用户ID查询车位日志
+module.exports.getCarportLogByUid = async ({
+  uid,
+  page_num = 1,
+  page_size = 10,
+}) => {
+  const payload = [uid];
+  page_num && page_size && payload.push(page_num, page_size);
+  return await query(
+    `SELECT rentlist.id,rentlist.starttime,rentlist.endtime,rentlist.comid,rentlist.pid,rentlist.cid,community.province_id,(SELECT name FROM province WHERE id = community.province_id) AS province,community.city_id,(SELECT name FROM province WHERE id = community.city_id) AS city,community.area_id,(SELECT name FROM province WHERE id = community.area_id) AS area,community.place,carport.pname,carport.x,carport.y,carport.z,carport.direction,carport.uid 
+FROM rentlist 
+JOIN community ON rentlist.comid = community.id 
+LEFT JOIN carport ON carport.comid = rentlist.comid AND carport.id = rentlist.pid 
+WHERE carport.uid = ?${
+      page_num && page_size ? ` LIMIT ${page_num},${page_size}` : ``
+    }`,
+    payload
+  );
+};
+// 根据用户ID和车位ID查询车位日志
+module.exports.getCarportLogByUidAndPid = async ({
+  uid,
+  pid,
+  page_num = 1,
+  page_size = 10,
+}) => {
+  const payload = [uid, pid];
+  page_num && page_size && payload.push(page_num, page_size);
+  return await query(
+    `SELECT rentlist.id,rentlist.starttime,rentlist.endtime,rentlist.comid,rentlist.pid,rentlist.cid,community.province_id,(SELECT name FROM province WHERE id = community.province_id) AS province,community.city_id,(SELECT name FROM province WHERE id = community.city_id) AS city,community.area_id,(SELECT name FROM province WHERE id = community.area_id) AS area,community.place,carport.pname,carport.x,carport.y,carport.z,carport.direction,carport.uid 
+FROM rentlist 
+JOIN community ON rentlist.comid = community.id 
+LEFT JOIN carport ON carport.comid = rentlist.comid AND carport.id = rentlist.pid 
+WHERE carport.uid = ? AND rentlist.pid = ?${
+      page_num && page_size ? ` LIMIT ${page_num},${page_size}` : ``
+    }`,
+    payload
+  );
+};
