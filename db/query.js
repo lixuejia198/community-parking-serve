@@ -22,6 +22,8 @@ module.exports.query = (sql, payload) => {
       // Use the connection 使用连接 发送sql语句到数据库中 然后数据库会执行sql语句
       // 执行结果 在回调函数中返回
       connection.query(sql, payload, function (error, results, fields) {
+        // 打印sql语句
+        console.log("[sql]", mysql.format(sql, payload));
         // When done with the connection, release it. 没连接上和拿到返回数据之后 会把当前连接释放掉
         connection.release();
 
