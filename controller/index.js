@@ -10,8 +10,6 @@ module.exports.rentList = async (ctx) => {
   const { page, limit } = ctx.request.query;
   const data = await getRentList(page, limit);
   const total = await getRentListCount();
-  // console.log(total, "total");
-  // console.log(data, "data");
   ctx.body = {
     status: 200,
     msg: "查询成功",
@@ -24,8 +22,6 @@ module.exports.seekList = async (ctx) => {
   const { page, limit } = ctx.request.query;
   const data = await getSeekList(page, limit);
   const total = await getSeekListCount();
-  // console.log(data, "data");
-  // console.log(total, "total");
   ctx.body = {
     status: 200,
     msg: "查询成功",
