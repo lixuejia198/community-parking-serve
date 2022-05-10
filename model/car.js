@@ -7,7 +7,7 @@ module.exports.getCarByUserID = async ({ uid, starttime, endtime }) => {
   return await query(
     `SELECT seeklist.id,seeklist.starttime,seeklist.endtime,seeklist.comid,seeklist.pid,seeklist.cid,car.cname,car.color,car.uid,carport.pname,carport.x,carport.y,carport.z,carport.direction 
 FROM seeklist 
-JOIN car ON seeklist.cid = car.id 
+RIGHT JOIN car ON seeklist.cid = car.id 
 LEFT JOIN carport ON carport.comid = seeklist.comid AND carport.id = seeklist.pid 
 WHERE car.uid = ?${
       starttime && endtime
