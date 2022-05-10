@@ -2,7 +2,7 @@ const { query } = require("../db/query");
 // 分页查询出租车位列表
 module.exports.getRentList = async (page = 1, limit = 10) => {
   return await query(
-    `SELECT rentlist.id,rentlist.starttime,rentlist.endtime,rentlist.comid,rentlist.pid,community.comname,community.place,carport.pname FROM rentlist INNER JOIN community ON rentlist.comid=community.id INNER JOIN carport ON rentlist.pid=carport.id ORDER BY rentlist.id DESC LIMIT ?,?`,
+    `SELECT rentlist.id,rentlist.starttime,rentlist.endtime,rentlist.comid,rentlist.pid,rentlist.cid,community.comname,community.place,carport.pname FROM rentlist INNER JOIN community ON rentlist.comid=community.id INNER JOIN carport ON rentlist.pid=carport.id ORDER BY rentlist.id DESC LIMIT ?,?`,
     [(page - 1) * limit, Number(limit)]
   );
 };
