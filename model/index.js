@@ -13,7 +13,7 @@ module.exports.getRentListCount = async () => {
 // 分页查询寻找车位列表
 module.exports.getSeekList = async (page = 1, limit = 10) => {
   return await query(
-    `SELECT seeklist.id,seeklist.starttime,seeklist.endtime,seeklist.comid,seeklist.pid,seeklist.cid,car.cname,car.color,car.uid,community.comname,community.province_id,community.city_id,community.area_id,community.place FROM seeklist INNER JOIN car ON seeklist.cid=car.id LEFT JOIN community ON seeklist.comid=community.id ORDER BY seeklist.id DESC LIMIT ?,?`,
+    `SELECT seeklist.id,seeklist.starttime,seeklist.endtime,seeklist.comid,seeklist.pid,(SELECT pname FROM carport WHERE id = seeklist.pid) AS pname,seeklist.cid,car.cname,car.color,car.uid,community.comname,community.province_id,community.city_id,community.area_id,community.place FROM seeklist INNER JOIN car ON seeklist.cid=car.id LEFT JOIN community ON seeklist.comid=community.id ORDER BY seeklist.id DESC LIMIT ?,?`,
     [(page - 1) * limit, Number(limit)]
   );
 };
