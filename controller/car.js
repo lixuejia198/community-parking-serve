@@ -23,13 +23,23 @@ module.exports.getCar = async (ctx) => {
     });
   } else if (uid && !comid) {
     // 只传入 uid 则查询该用户所有车辆
-    result = await getCarByUserID({ uid, starttime, endtime });
+    const data = await getCarByUserID({ uid: Number(uid), starttime, endtime });
+    // 车辆去重
+    data.forEach(
+      (item) =>
+        result.find((item1) => item1.id === item.id) ?? result.push(item)
+    );
   } else if (!uid && comid) {
     // 只传入 comid 则查询该小区所有车辆
-    result = await getCarByComID({ comid, starttime, endtime });
+    result = await getCarByComID({ comid: Number(comid), starttime, endtime });
   } else if (uid && comid) {
     // 传入 uid 和 comid 则查询该用户指定小区的车辆
-    result = await getCarByUserIDAndComID({ uid, comid, starttime, endtime });
+    result = await getCarByUserIDAndComID({
+      uid: Number(uid),
+      comid: Number(comid),
+      starttime,
+      endtime,
+    });
   }
   if (result.length > 0) {
     ctx.body = {

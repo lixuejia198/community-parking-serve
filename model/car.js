@@ -5,7 +5,7 @@ module.exports.getCarByUserID = async ({ uid, starttime, endtime }) => {
   const payload = [uid];
   starttime && endtime ? payload.push(starttime, endtime) : null;
   return await query(
-    `SELECT seeklist.id,seeklist.starttime,seeklist.endtime,seeklist.comid,seeklist.pid,seeklist.cid,car.cname,car.color,car.uid,carport.pname,carport.x,carport.y,carport.z,carport.direction 
+    `SELECT seeklist.id,seeklist.starttime,seeklist.endtime,seeklist.comid,seeklist.pid,car.id,car.cname,car.color,car.uid,carport.pname,carport.x,carport.y,carport.z,carport.direction 
 FROM seeklist 
 RIGHT JOIN car ON seeklist.cid = car.id 
 LEFT JOIN carport ON carport.comid = seeklist.comid AND carport.id = seeklist.pid 
@@ -13,7 +13,7 @@ WHERE car.uid = ?${
       starttime && endtime
         ? ` AND seeklist.starttime >= ? AND seeklist.endtime <= ?`
         : ""
-    }`,
+    } ORDER BY seeklist.id DESC`,
     payload
   );
 };
@@ -22,7 +22,7 @@ module.exports.getCarByComID = async ({ comid, starttime, endtime }) => {
   const payload = [comid];
   starttime && endtime ? payload.push(starttime, endtime) : null;
   return await query(
-    `SELECT seeklist.id,seeklist.starttime,seeklist.endtime,seeklist.comid,seeklist.pid,seeklist.cid,car.cname,car.color,car.uid,carport.pname,carport.x,carport.y,carport.z,carport.direction 
+    `SELECT seeklist.id,seeklist.starttime,seeklist.endtime,seeklist.comid,seeklist.pid,car.id,car.cname,car.color,car.uid,carport.pname,carport.x,carport.y,carport.z,carport.direction 
 FROM seeklist 
 JOIN car ON seeklist.cid = car.id 
 LEFT JOIN carport ON carport.comid = seeklist.comid AND carport.id = seeklist.pid 
@@ -44,7 +44,7 @@ module.exports.getCarByUserIDAndComID = async ({
   const payload = [uid, comid];
   starttime && endtime ? payload.push(starttime, endtime) : null;
   return await query(
-    `SELECT seeklist.id,seeklist.starttime,seeklist.endtime,seeklist.comid,seeklist.pid,seeklist.cid,car.cname,car.color,car.uid,carport.pname,carport.x,carport.y,carport.z,carport.direction 
+    `SELECT seeklist.id,seeklist.starttime,seeklist.endtime,seeklist.comid,seeklist.pid,car.id,car.cname,car.color,car.uid,carport.pname,carport.x,carport.y,carport.z,carport.direction 
 FROM seeklist 
 JOIN car ON seeklist.cid = car.id 
 LEFT JOIN carport ON carport.comid = seeklist.comid AND carport.id = seeklist.pid 

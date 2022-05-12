@@ -3,21 +3,21 @@ const { query } = require("../db/query");
 // 根据用户Id查询车位信息
 module.exports.getCarportByUserID = async ({ uid }) => {
   return await query(
-    "SELECT c.id,province_id,(SELECT name FROM province WHERE id = province_id) AS province,city_id,(SELECT name FROM province WHERE id = city_id) AS city,area_id,(SELECT name FROM province WHERE id = area_id) AS area,place,comname,pname,comid,x,y,z,direction FROM carport AS c JOIN community AS com ON c.comid = com.id WHERE uid = ?",
+    "SELECT c.id,province_id,(SELECT name FROM province WHERE id = province_id) AS province,city_id,(SELECT name FROM province WHERE id = city_id) AS city,area_id,(SELECT name FROM province WHERE id = area_id) AS area,place,comname,pname,comid,x,y,z,direction,uid FROM carport AS c JOIN community AS com ON c.comid = com.id WHERE uid = ?",
     [uid]
   );
 };
 // 根据小区Id查询车位信息
 module.exports.getCarportByComID = async ({ comid }) => {
   return await query(
-    "SELECT c.id,c.uid,province_id,(SELECT name FROM province WHERE id = province_id) AS province,city_id,(SELECT name FROM province WHERE id = city_id) AS city,area_id,(SELECT name FROM province WHERE id = area_id) AS area,place,comname,pname,comid,x,y,z,direction FROM carport AS c JOIN community AS com ON c.comid = com.id WHERE comid = ?",
+    "SELECT c.id,province_id,(SELECT name FROM province WHERE id = province_id) AS province,city_id,(SELECT name FROM province WHERE id = city_id) AS city,area_id,(SELECT name FROM province WHERE id = area_id) AS area,place,comname,pname,comid,x,y,z,direction,uid FROM carport AS c JOIN community AS com ON c.comid = com.id WHERE comid = ?",
     [comid]
   );
 };
 // 根据用户Id与小区ID查询车位信息
 module.exports.getCarportByUserIDAndComID = async ({ uid, comid }) => {
   return await query(
-    "SELECT c.id,province_id,(SELECT name FROM province WHERE id = province_id) AS province,city_id,(SELECT name FROM province WHERE id = city_id) AS city,area_id,(SELECT name FROM province WHERE id = area_id) AS area,place,comname,pname,comid,x,y,z,direction FROM carport AS c JOIN community AS com ON c.comid = com.id WHERE uid = ? AND comid = ?",
+    "SELECT c.id,province_id,(SELECT name FROM province WHERE id = province_id) AS province,city_id,(SELECT name FROM province WHERE id = city_id) AS city,area_id,(SELECT name FROM province WHERE id = area_id) AS area,place,comname,pname,comid,x,y,z,direction,uid FROM carport AS c JOIN community AS com ON c.comid = com.id WHERE uid = ? AND comid = ?",
     [uid, comid]
   );
 };
@@ -131,4 +131,16 @@ WHERE carport.uid = ? AND rentlist.pid = ?${
     }`,
     payload
   );
+};
+// 使用车位
+module.exports.useCarportByCid = async ({ id, cid }) => {
+  return await query(`UPDATE rentlist SET cid = ? WHERE id = ?`, [cid, id]);
+};
+// 共享车位给车辆
+module.exports.shareCarportByCid = async ({ id, comid, pid }) => {
+  return await query(`UPDATE seeklist SET comid = ?,pid = ? WHERE id = ?`, [
+    comid,
+    pid,
+    id,
+  ]);
 };

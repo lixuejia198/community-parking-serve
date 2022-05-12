@@ -2,7 +2,7 @@ const { query } = require("../db/query");
 // 分页查询出租车位列表
 module.exports.getRentList = async (page = 1, limit = 10) => {
   return await query(
-    `SELECT rentlist.id,rentlist.starttime,rentlist.endtime,rentlist.comid,rentlist.pid,community.comname,community.place,carport.pname FROM rentlist INNER JOIN community ON rentlist.comid=community.id INNER JOIN carport ON rentlist.pid=carport.id ORDER BY rentlist.id DESC LIMIT ?,?`,
+    `SELECT rentlist.id,rentlist.starttime,rentlist.endtime,rentlist.comid,rentlist.pid,rentlist.cid,community.comname,community.place,carport.pname FROM rentlist INNER JOIN community ON rentlist.comid=community.id INNER JOIN carport ON rentlist.pid=carport.id ORDER BY rentlist.id DESC LIMIT ?,?`,
     [(page - 1) * limit, Number(limit)]
   );
 };
@@ -13,7 +13,7 @@ module.exports.getRentListCount = async () => {
 // 分页查询寻找车位列表
 module.exports.getSeekList = async (page = 1, limit = 10) => {
   return await query(
-    `SELECT seeklist.id,seeklist.starttime,seeklist.endtime,seeklist.comid,seeklist.pid,seeklist.cid,car.cname,car.color,car.uid,community.comname,community.province_id,community.city_id,community.area_id,community.place FROM seeklist INNER JOIN car ON seeklist.cid=car.id LEFT JOIN community ON seeklist.comid=community.id ORDER BY seeklist.id DESC LIMIT ?,?`,
+    `SELECT seeklist.id,seeklist.starttime,seeklist.endtime,seeklist.comid,seeklist.pid,(SELECT pname FROM carport WHERE id = seeklist.pid) AS pname,seeklist.cid,car.cname,car.color,car.uid,community.comname,community.province_id,community.city_id,community.area_id,community.place FROM seeklist INNER JOIN car ON seeklist.cid=car.id LEFT JOIN community ON seeklist.comid=community.id ORDER BY seeklist.id DESC LIMIT ?,?`,
     [(page - 1) * limit, Number(limit)]
   );
 };
