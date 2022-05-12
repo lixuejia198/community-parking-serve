@@ -132,3 +132,7 @@ WHERE carport.uid = ? AND rentlist.pid = ?${
     payload
   );
 };
+// 使用车位
+module.exports.useCarportByCid = async ({ id, cid }) => {
+  return await query(`UPDATE rentlist SET cid = ? WHERE id = ?`, [cid, id]);
+};

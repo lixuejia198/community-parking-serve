@@ -10,6 +10,7 @@ const {
   getCarportLogByUid,
   getCarportLogByPid,
   getCarportLogByUidAndPid,
+  useCarportByCid,
 } = require("../model/carport");
 
 // 查询用户车位列表
@@ -203,6 +204,34 @@ module.exports.getCarportLog = async (ctx) => {
       status: 0,
       msg: "没有查询到数据",
       data: [],
+    };
+  }
+};
+
+// 使用车位
+module.exports.useCarport = async (ctx) => {
+  const { id, cid } = ctx.request.body;
+  // 校验参数
+  if (!id || !cid) {
+    return (ctx.body = {
+      code: 0,
+      msg: "参数错误",
+    });
+  }
+  const result = await useCarportByCid({ id: Number(id), cid: Number(cid) });
+  if (result.affectedRows !== 0) {
+    ctx.body = {
+      status: 200,
+      msg: "使用车位成功",
+      data: {
+        id: Number(id),
+        cid: Number(cid),
+      },
+    };
+  } else {
+    ctx.body = {
+      status: 0,
+      msg: "使用车位失败",
     };
   }
 };

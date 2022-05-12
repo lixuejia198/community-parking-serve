@@ -6,6 +6,7 @@ const {
   rentCarport,
   rentCarportTime,
   getCarportLog,
+  useCarport,
 } = require("../controller/carport");
 router.prefix("/carport");
 
@@ -21,5 +22,7 @@ router.post("/rent", rentCarport);
 router.get("/rent_time", rentCarportTime);
 // 查询车位日志
 router.get("/log", getCarportLog);
+// 使用车位
+router.post("/use", useCarport);
 
 module.exports = router;
