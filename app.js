@@ -46,7 +46,7 @@ app.use(
       /^\/users\/register/,
       /^\/rentlist/,
       /^\/seeklist/,
-      /^\/carport/,
+      /^\/citylist/,
     ],
   })
 );
