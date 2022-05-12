@@ -136,3 +136,11 @@ WHERE carport.uid = ? AND rentlist.pid = ?${
 module.exports.useCarportByCid = async ({ id, cid }) => {
   return await query(`UPDATE rentlist SET cid = ? WHERE id = ?`, [cid, id]);
 };
+// 共享车位给车辆
+module.exports.shareCarportByCid = async ({ id, comid, pid }) => {
+  return await query(`UPDATE seeklist SET comid = ?,pid = ? WHERE id = ?`, [
+    comid,
+    pid,
+    id,
+  ]);
+};

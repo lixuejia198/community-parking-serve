@@ -11,6 +11,7 @@ const {
   getCarportLogByPid,
   getCarportLogByUidAndPid,
   useCarportByCid,
+  shareCarportByCid,
 } = require("../model/carport");
 
 // 查询用户车位列表
@@ -232,6 +233,39 @@ module.exports.useCarport = async (ctx) => {
     ctx.body = {
       status: 0,
       msg: "使用车位失败",
+    };
+  }
+};
+
+// 共享车位给车辆
+module.exports.shareCarport = async (ctx) => {
+  const { id, comid, pid } = ctx.request.body;
+  // 校验参数
+  if (!id || !comid || !pid) {
+    return (ctx.body = {
+      code: 0,
+      msg: "参数错误",
+    });
+  }
+  const result = await shareCarportByCid({
+    id: Number(id),
+    comid: Number(comid),
+    pid: Number(pid),
+  });
+  if (result.affectedRows !== 0) {
+    ctx.body = {
+      status: 200,
+      msg: "共享车位成功",
+      data: {
+        id: Number(id),
+        comid: Number(comid),
+        pid: Number(pid),
+      },
+    };
+  } else {
+    ctx.body = {
+      status: 0,
+      msg: "共享车位失败",
     };
   }
 };

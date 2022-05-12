@@ -7,6 +7,7 @@ const {
   rentCarportTime,
   getCarportLog,
   useCarport,
+  shareCarport,
 } = require("../controller/carport");
 router.prefix("/carport");
 
@@ -24,5 +25,7 @@ router.get("/rent_time", rentCarportTime);
 router.get("/log", getCarportLog);
 // 使用车位
 router.post("/use", useCarport);
+// 共享车位给车辆
+router.post("/share", shareCarport);
 
 module.exports = router;
