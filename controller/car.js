@@ -23,7 +23,7 @@ module.exports.getCar = async (ctx) => {
     });
   } else if (uid && !comid) {
     // 只传入 uid 则查询该用户所有车辆
-    const data = await getCarByUserID({ uid, starttime, endtime });
+    const data = await getCarByUserID({ uid: Number(uid), starttime, endtime });
     // 车辆去重
     data.forEach(
       (item) =>
@@ -31,10 +31,15 @@ module.exports.getCar = async (ctx) => {
     );
   } else if (!uid && comid) {
     // 只传入 comid 则查询该小区所有车辆
-    result = await getCarByComID({ comid, starttime, endtime });
+    result = await getCarByComID({ comid: Number(comid), starttime, endtime });
   } else if (uid && comid) {
     // 传入 uid 和 comid 则查询该用户指定小区的车辆
-    result = await getCarByUserIDAndComID({ uid, comid, starttime, endtime });
+    result = await getCarByUserIDAndComID({
+      uid: Number(uid),
+      comid: Number(comid),
+      starttime,
+      endtime,
+    });
   }
   if (result.length > 0) {
     ctx.body = {
