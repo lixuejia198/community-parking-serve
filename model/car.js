@@ -4,6 +4,8 @@ const { query } = require("../db/query");
 module.exports.getCarByUserID = async ({ uid, starttime, endtime }) => {
   const payload = [uid];
   starttime && endtime ? payload.push(starttime, endtime) : null;
+  payload.push(uid);
+  starttime && endtime ? payload.push(starttime, endtime) : null;
   return await query(
     `SELECT seeklist.id,seeklist.starttime,seeklist.endtime,seeklist.comid,seeklist.pid,car.id,car.cname,car.color,car.uid,carport.pname,carport.x,carport.y,carport.z,carport.direction 
 FROM seeklist 
@@ -13,13 +15,25 @@ WHERE car.uid = ?${
       starttime && endtime
         ? ` AND seeklist.starttime >= ? AND seeklist.endtime <= ?`
         : ""
-    } ORDER BY seeklist.id DESC`,
+    } 
+UNION ALL
+SELECT rentlist.id,rentlist.starttime,rentlist.endtime,rentlist.comid,rentlist.pid,car.id,car.cname,car.color,car.uid,carport.pname,carport.x,carport.y,carport.z,carport.direction 
+FROM rentlist
+JOIN car ON rentlist.cid = car.id 
+LEFT JOIN carport ON carport.comid = rentlist.comid AND carport.id = rentlist.pid 
+WHERE car.uid = ?${
+      starttime && endtime
+        ? ` AND rentlist.starttime >= ? AND rentlist.endtime <= ?`
+        : ""
+    }  ORDER BY 1 DESC`,
     payload
   );
 };
 // 根据小区ID查询车辆信息
 module.exports.getCarByComID = async ({ comid, starttime, endtime }) => {
   const payload = [comid];
+  starttime && endtime ? payload.push(starttime, endtime) : null;
+  payload.push(comid);
   starttime && endtime ? payload.push(starttime, endtime) : null;
   return await query(
     `SELECT seeklist.id,seeklist.starttime,seeklist.endtime,seeklist.comid,seeklist.pid,car.id,car.cname,car.color,car.uid,carport.pname,carport.x,carport.y,carport.z,carport.direction 
@@ -29,6 +43,16 @@ LEFT JOIN carport ON carport.comid = seeklist.comid AND carport.id = seeklist.pi
 WHERE carport.comid = ?${
       starttime && endtime
         ? ` AND seeklist.starttime >= ? AND seeklist.endtime <= ?`
+        : ""
+    }
+UNION ALL
+SELECT rentlist.id,rentlist.starttime,rentlist.endtime,rentlist.comid,rentlist.pid,car.id,car.cname,car.color,car.uid,carport.pname,carport.x,carport.y,carport.z,carport.direction 
+FROM rentlist
+JOIN car ON rentlist.cid = car.id 
+LEFT JOIN carport ON carport.comid = rentlist.comid AND carport.id = rentlist.pid 
+WHERE carport.comid = ?${
+      starttime && endtime
+        ? ` AND rentlist.starttime >= ? AND rentlist.endtime <= ?`
         : ""
     }`,
     payload
@@ -43,6 +67,8 @@ module.exports.getCarByUserIDAndComID = async ({
 }) => {
   const payload = [uid, comid];
   starttime && endtime ? payload.push(starttime, endtime) : null;
+  payload.push(uid, comid);
+  starttime && endtime ? payload.push(starttime, endtime) : null;
   return await query(
     `SELECT seeklist.id,seeklist.starttime,seeklist.endtime,seeklist.comid,seeklist.pid,car.id,car.cname,car.color,car.uid,carport.pname,carport.x,carport.y,carport.z,carport.direction 
 FROM seeklist 
@@ -51,6 +77,16 @@ LEFT JOIN carport ON carport.comid = seeklist.comid AND carport.id = seeklist.pi
 WHERE car.uid = ? AND carport.comid = ?${
       starttime && endtime
         ? ` AND seeklist.starttime >= ? AND seeklist.endtime <= ?`
+        : ""
+    }
+UNION ALL
+SELECT rentlist.id,rentlist.starttime,rentlist.endtime,rentlist.comid,rentlist.pid,car.id,car.cname,car.color,car.uid,carport.pname,carport.x,carport.y,carport.z,carport.direction 
+FROM rentlist
+JOIN car ON rentlist.cid = car.id 
+LEFT JOIN carport ON carport.comid = rentlist.comid AND carport.id = rentlist.pid 
+WHERE carport.comid = ?${
+      starttime && endtime
+        ? ` AND rentlist.starttime >= ? AND rentlist.endtime <= ?`
         : ""
     }`,
     payload
