@@ -44,7 +44,7 @@ module.exports.cityList = async (ctx) => {
     );
     // 判断是否查找到当前省的数据
     if (provinceIndex === -1) {
-      // 如果找不到 则添加当前省、市、区的数据
+      // 如果找不到 则绑定当前省、市、区的数据
       result.push({
         value: item.province_id,
         label: item.province,
@@ -69,7 +69,7 @@ module.exports.cityList = async (ctx) => {
       );
       // 判断是否查找到当前市的数据
       if (cityIndex === -1) {
-        // 如果找不到 则添加当前市、区的数据
+        // 如果找不到 则绑定当前市、区的数据
         result[provinceIndex].children.push({
           value: item.city_id,
           label: item.city,
@@ -88,14 +88,14 @@ module.exports.cityList = async (ctx) => {
         ].children.findIndex((item1) => item1?.value === item?.area_id);
         // 判断是否查找到当前区的数据
         if (areaIndex === -1) {
-          // 如果找不到 则添加当前区的数据
+          // 如果找不到 则绑定当前区的数据
           result[provinceIndex].children[cityIndex].children.push({
             value: item.area_id,
             label: item.area,
             list: [item],
           });
         } else {
-          // 否则在当前区下添加当前数据
+          // 否则在当前区下绑定当前数据
           result[provinceIndex].children[cityIndex].children[
             areaIndex
           ].list.push(item);

@@ -9,6 +9,7 @@ const {
   getCarLogByUid,
   getCarLogByCid,
   getCarLogByUidAndCid,
+  untieCarByID,
 } = require("../model/car");
 
 // 查询车辆信息
@@ -55,7 +56,7 @@ module.exports.getCar = async (ctx) => {
   }
 };
 
-// 添加车辆
+// 绑定车辆
 module.exports.addCar = async (ctx) => {
   const { cname, uid, color } = ctx.request.body;
   // 校验参数
@@ -69,17 +70,41 @@ module.exports.addCar = async (ctx) => {
   if (result.affectedRows !== 0) {
     ctx.body = {
       status: 200,
-      msg: "添加成功",
+      msg: "绑定成功",
     };
   } else {
     ctx.body = {
       status: 0,
-      msg: "添加失败",
+      msg: "绑定失败",
     };
   }
 };
 
-// 添加到寻找车位
+// 解绑车辆
+module.exports.untieCar = async (ctx) => {
+  const { id } = ctx.request.body;
+  // 校验参数
+  if (!id) {
+    return (ctx.body = {
+      code: 0,
+      msg: "参数错误",
+    });
+  }
+  const result = await untieCarByID({ id: Number(id) });
+  if (result.affectedRows !== 0) {
+    ctx.body = {
+      status: 200,
+      msg: "解绑成功",
+    };
+  } else {
+    ctx.body = {
+      status: 0,
+      msg: "解绑失败",
+    };
+  }
+};
+
+// 绑定到寻找车位
 module.exports.seekCarport = async (ctx) => {
   const { starttime, endtime, cid } = ctx.request.body;
   // 校验参数

@@ -8,13 +8,16 @@ const {
   getCarportLog,
   useCarport,
   shareCarport,
+  untieCarport,
 } = require("../controller/carport");
 router.prefix("/carport");
 
 // 查询所有车位
 router.get("/", getCarport);
-// 添加车位
+// 绑定车位
 router.post("/add", addCarport);
+// 解绑车位
+router.post("/untie", untieCarport);
 // 车位绑定用户
 router.post("/bind_user", userBindCarport);
 // 共享车位

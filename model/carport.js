@@ -21,7 +21,7 @@ module.exports.getCarportByUserIDAndComID = async ({ uid, comid }) => {
     [uid, comid]
   );
 };
-// 根据小区ID添加车位
+// 根据小区ID绑定车位
 module.exports.addCarportByComID = async ({
   pname,
   comid,
@@ -37,11 +37,15 @@ module.exports.addCarportByComID = async ({
     [pname, x, y, z, direction, uid, comid, state]
   );
 };
-// 车位添加到指定用户上
+// 根据车位ID删除车位
+module.exports.untieCarportByID = async ({ id }) => {
+  return await query("UPDATE carport SET uid = null WHERE id=?", [id]);
+};
+// 车位绑定到指定用户上
 module.exports.addCarportToUser = async ({ uid, pid }) => {
   return await query("UPDATE carport SET uid = ? WHERE id = ?", [uid, pid]);
 };
-// 添加车位到共享列表
+// 绑定车位到共享列表
 module.exports.addCarportToRent = async ({
   starttime,
   endtime,
