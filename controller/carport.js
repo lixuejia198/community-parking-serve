@@ -12,6 +12,7 @@ const {
   getCarportLogByUidAndPid,
   useCarportByCid,
   shareCarportByCid,
+  untieCarportByID,
 } = require("../model/carport");
 
 // 查询用户车位列表
@@ -48,11 +49,11 @@ module.exports.getCarport = async (ctx) => {
   }
 };
 
-// 添加车位
+// 绑定车位
 module.exports.addCarport = async (ctx) => {
   const { pname, comid, x, y, z, direction, uid } = ctx.request.body;
 
-  // 添加小区车位
+  // 绑定小区车位
   const result = await addCarportByComID({
     pname,
     comid: Number(comid),
@@ -66,7 +67,7 @@ module.exports.addCarport = async (ctx) => {
   if (result.affectedRows !== 0) {
     ctx.body = {
       status: 200,
-      msg: "车位添加成功",
+      msg: "车位绑定成功",
       data: {
         pname,
         comid: Number(comid),
@@ -80,12 +81,36 @@ module.exports.addCarport = async (ctx) => {
   } else {
     ctx.body = {
       status: 0,
-      msg: "车位添加失败",
+      msg: "车位绑定失败",
     };
   }
 };
 
-// 用户添加车位
+// 解绑车位
+module.exports.untieCarport = async (ctx) => {
+  const { id } = ctx.request.body;
+  // 校验参数
+  if (!id) {
+    return (ctx.body = {
+      code: 0,
+      msg: "参数错误",
+    });
+  }
+  const result = await untieCarportByID({ id: Number(id) });
+  if (result.affectedRows !== 0) {
+    ctx.body = {
+      status: 200,
+      msg: "解绑成功",
+    };
+  } else {
+    ctx.body = {
+      status: 0,
+      msg: "解绑失败",
+    };
+  }
+};
+
+// 用户绑定车位
 module.exports.userBindCarport = async (ctx) => {
   const { pid, uid } = ctx.request.body;
   const result = await addCarportToUser({ uid, pid });

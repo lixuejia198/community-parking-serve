@@ -92,7 +92,7 @@ WHERE carport.comid = ?${
     payload
   );
 };
-// 根据用户ID添加车辆
+// 根据用户ID绑定车辆
 module.exports.addCarByUserID = async ({ uid, cname, color = "#ffffff" }) => {
   return await query("INSERT INTO car (uid,cname,color) VALUES (?,?,?)", [
     uid,
@@ -100,7 +100,11 @@ module.exports.addCarByUserID = async ({ uid, cname, color = "#ffffff" }) => {
     color.toLocaleLowerCase(),
   ]);
 };
-// 添加车辆到寻找车位列表
+// 根据车辆ID删除车辆
+module.exports.untieCarByID = async ({ id }) => {
+  return await query("UPDATE car SET uid = 0 WHERE id=?", [id]);
+};
+// 绑定车辆到寻找车位列表
 module.exports.addCarToSeek = async ({ starttime, endtime, cid }) => {
   return await query(
     "INSERT INTO seeklist (starttime,endtime,cid) VALUES (?,?,?)",
